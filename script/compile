@@ -8,9 +8,9 @@ if [ -z "$NATIVE_IMAGE" ]; then
         exit 1
     fi
 
-    "$GRAALVM_HOME/bin/gu" install native-image
-
     NATIVE_IMAGE="$GRAALVM_HOME/bin/native-image"
+
+    [[ -f $NATIVE_IMAGE ]] || "$GRAALVM_HOME/bin/gu" install native-image
 fi
 
 CLJ_FMT_VERSION=$(cat resources/cljfmt_graal_version)
@@ -20,7 +20,7 @@ STANDALONE_NAME=cljfmt
 lein "do" clean, uberjar
 
 $NATIVE_IMAGE \
-    "-jar" "target/uberjar/${JAR_NAME}-${CLJ_FMT_VERSION}-standalone.jar" \
+    "-jar" "target/default+uberjar/${JAR_NAME}-${CLJ_FMT_VERSION}-standalone.jar" \
     "-H:Name=${STANDALONE_NAME}" \
     "-H:+ReportExceptionStackTraces" \
     "-J-Dclojure.spec.skip-macros=true" \
@@ -32,3 +32,5 @@ $NATIVE_IMAGE \
     "--no-fallback" \
     "--no-server" \
     "-J-Xmx3g"
+
+mv $STANDALONE_NAME target
