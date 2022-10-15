@@ -1,14 +1,16 @@
 # cljfmt-graalvm
 
-[cljfmt](https://github.com/weavejester/cljfmt)
-is a tool for formatting Clojure code idiomatically.
+> **Note**
+>
+> This fork and enhancement for [bsless/cljfmt-graalvm](https://github.com/bsless/cljfmt-graalvm)
+> is because that repo is archived as of 2022-10-17
 
-Update: cljfmt now has support for native image building.
+This is a re-packaging of `weavejester/cljfmt` as a fast-starting, native CLI tool.
 
-The need arose to run cljfmt quickly without a JVM. That is all this
-repo provides. Any piece of code in it is copied from
-`weavejester/cljfmt` or from `clojure.stacktrace`. The code was only
-copied to type hint class types the native image could not figure out.
+[cljfmt](https://github.com/weavejester/cljfmt) is a tool for formatting Clojure code idiomatically.
+
+Code vendored from `weavejester/cljfmt` or from `clojure.stacktrace` was to type
+hint class types the native image could not figure out.
 
 The compile script is based on
 [clj-kondo's](https://github.com/borkdude/clj-kondo/blob/master/script/compile)
@@ -25,17 +27,57 @@ respective contributors.
 
 ## Installation
 
-run `script/compile`
+- run `script/compile`
+- copy `target/cljfmt` to someplace in your `$PATH`
 
 ## Usage
 
-Just like `cljfmt`, just use the binary instead of a lein task.
+- drop-in replacement for the deprecated [node-cljfmt](https://github.com/snoe/node-cljfmt),
+  reading `*in*` and writing formatted clojure code to `*out*`.  This is the interface
+  used by [format-all for Emacs](https://github.com/lassik/emacs-format-all-the-code).
+    - `stdio`
+
+- also replicates the options of the original [cljfmt](https://github.com/weavejester/cljfmt) lein task.
+    - `fix`
+    - `check`
+
+### Emacs
+
+If you are using [doom emacs](https://github.com/doomemacs), add this to your `~/.doom.d/config.el`.
+
+```emacs
+(set-formatter! 'cljfmt "cljfmt stdio")
+```
+
+As of 2023-01-03, Doom emacs has its format module [pinned to `format-all` 0.5.0](https://github.com/doomemacs/doomemacs/blob/master/modules/editor/format/packages.el).
+If you are using a later version of `format-all`, use [zprint](https://github.com/kkinnear/zprint) or set `zprint`.
+
+```emacs
+(set-formatter! 'zprint "cljfmt stdio")
+```
+
+[zprint](https://github.com/kkinnear/zprint) is an alternative to [cljfmt](https://github.com/weavejester/cljfmt).
 
 ## Options
 
-Just like `cljfmt`
+Just like [`lein cljfmt`](https://github.com/weavejester/cljfmt#configuration)
+
+```
+--file-pattern FILE_PATTERN            \.clj[csx]?$
+--indents INDENTS_PATH
+--alias-map ALIAS_MAP_PATH
+--project-root PROJECT_ROOT            .
+--[no-]ansi
+--[no-]indentation
+--[no-]remove-surrounding-whitespace
+--[no-]remove-trailing-whitespace
+--[no-]insert-missing-whitespace
+--[no-]remove-consecutive-blank-lines
+```
 
 ## License
+
+Copyright © 2022 Paul Bauer
 
 Copyright © 2020 Ben Sless
 

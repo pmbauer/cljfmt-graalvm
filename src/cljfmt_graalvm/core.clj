@@ -5,8 +5,8 @@
             [clojure.tools.cli :as cli]
             [cljfmt-graalvm.diff :as diff]
             [cljfmt-graalvm.stacktrace :as st])
+  (:import [java.io BufferedReader BufferedWriter])
   (:gen-class))
-
 
 (defn- abort [& msg]
   (binding [*out* *err*]
@@ -38,8 +38,6 @@
 
 (defn- project-path [{:keys [project-root]} file]
   (-> project-root (or ".") io/file (relative-path (io/file file))))
-
-
 
 (defn- format-diff
   ([options file]
@@ -138,6 +136,13 @@
              (warn "Failed to format file:" (project-path options f))
              (print-stack-trace e))))))))
 
+(defn formatio
+  [^java.io.Reader in ^java.io.Writer out options]
+  (with-open [outb (BufferedWriter. out)
+              inb (BufferedReader. in)]
+    (binding [*out* outb]
+      (print (reformat-string options (slurp inb))))))
+
 (def ^:private cli-file-reader
   (comp edn/read-string slurp diff/to-absolute-path))
 
@@ -197,11 +202,11 @@
         paths         (or (seq paths) default-paths)]
     (if (:errors parsed-opts)
       (abort (:errors parsed-opts))
-      (if (or (nil? cmd) (:help options))
-        (do (println "cljfmt [OPTIONS] COMMAND [PATHS ...]")
+      (if (:help options)
+        (do (println "cljfmt [OPTIONS] [check|fix|stdio] [PATHS ...]")
             (println (:summary parsed-opts)))
         (case cmd
           "check" (check paths options)
           "fix"   (fix paths options)
-          (abort "Unknown cljfmt command:" cmd))))))
-
+          ("stdio" nil) (formatio *in* *out* options)
+          (abort "Unknown command, must be check, fix, or stdio:" cmd))))))
