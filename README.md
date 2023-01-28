@@ -5,9 +5,8 @@
 > This fork and enhancement for [bsless/cljfmt-graalvm](https://github.com/bsless/cljfmt-graalvm)
 > is because that repo is archived as of 2022-10-17
 
-This is a re-packaging of `weavejester/cljfmt` as a fast-starting, native CLI tool.
-
-[cljfmt](https://github.com/weavejester/cljfmt) is a tool for formatting Clojure code idiomatically.
+This is a re-packaging of `weavejester/cljfmt` as a fast-starting, native CLI tool for formatting Clojure code idiomatically.
+`cljfmt` [has its own native-image packaging](https://github.com/weavejester/cljfmt/blob/master/cljfmt/project.clj#L38-L41), but doesn't offer a `stdio` interface for use from editor tools like [format-all](https://github.com/lassik/emacs-format-all-the-code).
 
 Code vendored from `weavejester/cljfmt` or from `clojure.stacktrace` was to type
 hint class types the native image could not figure out.
