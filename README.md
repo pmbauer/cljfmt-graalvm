@@ -76,7 +76,7 @@ Just like [`lein cljfmt`](https://github.com/weavejester/cljfmt#configuration)
 
 ## License
 
-Copyright © 2022 Paul Bauer
+Copyright © 2023 Paul Bauer
 
 Copyright © 2020 Ben Sless
 
