@@ -20,7 +20,7 @@ STANDALONE_NAME=cljfmt
 lein "do" clean, uberjar
 
 $NATIVE_IMAGE \
-    "-jar" "target/default+uberjar/${JAR_NAME}-${CLJ_FMT_VERSION}-standalone.jar" \
+    "-jar" "target/uberjar/${JAR_NAME}-${CLJ_FMT_VERSION}-standalone.jar" \
     "-H:Name=${STANDALONE_NAME}" \
     "-H:+ReportExceptionStackTraces" \
     "-J-Dclojure.spec.skip-macros=true" \
