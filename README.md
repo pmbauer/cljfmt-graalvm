@@ -20,7 +20,7 @@ respective contributors.
 
 ## Prerequisites
 
-- Get [GraalVM](https://github.com/graalvm/graalvm-ce-builds/releases)
+- Get [GraalVM](https://www.graalvm.org/latest/docs/getting-started/)
 - Set `GRAALVM_HOME` to the unpacked archive or add `$GRAALVM_HOME/bin` to your path
 - Clone this repo
 
